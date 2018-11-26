@@ -2,34 +2,21 @@ package kr.ac.skhu.hyerin.calculator;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.Stack;
-
 public class MainActivity extends AppCompatActivity {
-    EditText e;
     TextView textView;
-    Stack stack;
-    Stack<Integer> stack2;
-    int num1, num2;
-    int result;
-    String[] expression, expression2;
-
-    String s = "";
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        stack = new Stack();
-        stack2 = new Stack<Integer>();
-
-        e = (EditText) findViewById(R.id.e);
-        textView = (TextView) findViewById(R.id.textview);
 
         Button button1 = (Button) findViewById(R.id.button1);
         Button button2 = (Button) findViewById(R.id.button2);
@@ -48,251 +35,95 @@ public class MainActivity extends AppCompatActivity {
         Button buttondiv = (Button) findViewById(R.id.buttondiv);
         Button buttonR = (Button) findViewById(R.id.buttonR);
 
-        MyListener listener = new MyListener();
+        textView = (TextView) findViewById(R.id.textview); // 결과를 보여줄 TextView
+        editText = (EditText) findViewById(R.id.e); // 값을 입력할 EditText
 
-        button1.setOnClickListener(listener);
-        button2.setOnClickListener(listener);
-        button3.setOnClickListener(listener);
-        button4.setOnClickListener(listener);
-        button5.setOnClickListener(listener);
-        button6.setOnClickListener(listener);
-        button7.setOnClickListener(listener);
-        button8.setOnClickListener(listener);
-        button9.setOnClickListener(listener);
-        button0.setOnClickListener(listener);
-        buttonAC.setOnClickListener(listener);
-        buttondiv.setOnClickListener(listener);
-        buttonmul.setOnClickListener(listener);
-        buttonR.setOnClickListener(listener);
-        buttonPlus.setOnClickListener(listener);
-        buttonsub.setOnClickListener(listener);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 입력되는 텍스트에 변화가 있을 때
+                textView.setText(editText.getText().toString() + "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // 입력이 끝났을 때
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 입력하기 전에
+
+            }
+        });
+
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.button0:
+                        editText.append("0");
+                        break;
+                    case R.id.button1:
+                        editText.append("1");
+                        break;
+                    case R.id.button2:
+                        editText.append("2");
+                        break;
+                    case R.id.button3:
+                        editText.append("3");
+                        break;
+                    case R.id.button4:
+                        editText.append("4");
+                        break;
+                    case R.id.button5:
+                        editText.append("5");
+                        break;
+                    case R.id.button6:
+                        editText.append("6");
+                        break;
+                    case R.id.button7:
+                        editText.append("7");
+                        break;
+                    case R.id.button8:
+                        editText.append("8");
+                        break;
+                    case R.id.button9:
+                        editText.append("9");
+                        break;
+                    case R.id.buttonmul:
+                        editText.append("*");
+                        break;
+                    case R.id.buttonsub:
+                        editText.append("-");
+                        break;
+                    case R.id.buttonPlus:
+                        editText.append("+");
+                        break;
+                    case R.id.buttondiv:
+                        editText.append("/");
+                        break;
+                }
+            }
+        };
+
+
+        button1.setOnClickListener(clickListener);
+        button2.setOnClickListener(clickListener);
+        button3.setOnClickListener(clickListener);
+        button4.setOnClickListener(clickListener);
+        button5.setOnClickListener(clickListener);
+        button6.setOnClickListener(clickListener);
+        button7.setOnClickListener(clickListener);
+        button8.setOnClickListener(clickListener);
+        button9.setOnClickListener(clickListener);
+        button0.setOnClickListener(clickListener);
+        buttonAC.setOnClickListener(clickListener);
+        buttondiv.setOnClickListener(clickListener);
+        buttonmul.setOnClickListener(clickListener);
+        buttonR.setOnClickListener(clickListener);
+        buttonPlus.setOnClickListener(clickListener);
+        buttonsub.setOnClickListener(clickListener);
+
     }
 
-
-    class MyListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            String buttonStr = ((Button) v).getText().toString();
-            switch(v.getId()) {
-                case R.id.button0:
-                    s = s + e.getText().toString() + 0 + " ";
-                    break;
-                case R.id.button1:
-                    s = s + e.getText().toString() + 1 + " ";
-                    break;
-                case R.id.button2:
-                    s = s + e.getText().toString() + 2 + " ";
-                    break;
-                case R.id.button3:
-                    s = s + e.getText().toString() + 3 + " ";
-                    break;
-                case R.id.button4:
-                    s = s + e.getText().toString() + 4 + " ";
-                    break;
-                case R.id.button5:
-                    s = s + e.getText().toString() + 5 + " ";
-                    e.setText(s);
-                    break;
-                case R.id.button6:
-                    s = s + e.getText().toString() + 6 + " ";
-                    break;
-                case R.id.button7:
-                    s = s + e.getText().toString() + 7 + " ";
-                    break;
-                case R.id.button8:
-                    s = s + e.getText().toString() + 8 + " ";
-                    break;
-                case R.id.button9:
-                    s = s + e.getText().toString() + 9 + " ";
-                    break;
-                case R.id.buttonAC:
-                    e.setText("");
-                    s = "";
-                case R.id.buttonmul:
-                    s = s + e.getText().toString() + '*' + " ";
-                    break;
-                case R.id.buttonsub:
-                    s = s + e.getText().toString() + '-' + " ";
-                    break;
-                case R.id.buttonPlus:
-                    s = s + e.getText().toString() + '+' + " ";
-                    break;
-                case R.id.buttondiv:
-                    s = s + e.getText().toString() + '/' + " ";
-                    break;
-                case R.id.buttonR:
-                    expression = s.split(" ");
-                    expression2 = new String[expression.length];
-
-                    int i = 0;
-                    for (String s1 : expression) {
-                        switch (s1) {
-                            case "+":
-                            case "-":
-                                if (stack.isEmpty()) {
-                                    stack.push(s1);
-                                    break;
-                                }
-                                while (!stack.isEmpty()) {
-                                    expression2[i] = (String) stack.pop();
-                                    i++;
-                                }
-                                stack.push(s1);
-                                break;
-
-                            case "*":
-                            case "/":
-                                if (stack.isEmpty()) {
-                                    stack.push(s1);
-                                    break;
-                                }
-                                String operator = (String) stack.peek();
-                                if (operator == "*" || operator == "/") {
-                                    while (!stack.isEmpty()) {
-                                        expression2[i] = (String) stack.pop();
-                                        i++;
-                                    }
-                                } else {
-                                    stack.push(s1);
-                                    break;
-                                }
-                            default:
-                                expression2[i] = s1;
-                                i++;
-                        }
-                    }
-                    while (!stack.isEmpty()) {
-                        expression2[i] = (String) stack.pop();
-                        i++;
-                    }
-
-
-
-                    for (i = 0; i < expression2.length; i++) {
-                        if (expression2[i].equals("+")) {
-                            num1 = stack2.pop();
-                            num2 = stack2.pop();
-                            result = num1 + num2;
-                            stack2.push(result);
-                        } else if (expression2[i].equals("-")) {
-                            num1 = stack2.pop();
-                            num2 = stack2.pop();
-                            result = num2 - num1;
-                            stack2.push(result);
-                        } else if (expression2[i].equals("*")) {
-                            num1 = stack2.pop();
-                            num2 = stack2.pop();
-                            result = num1 * num2;
-                            stack2.push(result);
-                        } else if (expression2[i].equals("/")) {
-                            num1 = stack2.pop();
-                            num2 = stack2.pop();
-                            result = num2 / num1;
-                            stack2.push(result);
-                        } else
-                            stack2.push(Integer.parseInt(expression2[i]));
-                    }
-                    int r = stack2.pop();
-                    e.setText((stack2.pop()));
-            }
-
-
-        }
-    }
-}
-
-
-/*
-            String buttonStr = ((Button) v).getText().toString();
-
-            if (buttonStr.equals("AC")) { //AC 누르면 (이전 결과 창 제외) 전부 삭제
-                e.setText("");
-                s = "";
-            }
-
-            else if (buttonStr.equals("=")) {
-            */
-               /*
-                Stack stack = new Stack();
-                String[] expression = s.split(" ");
-                String[] expression2 = new String[expression.length];
-
-                int i = 0;
-                for (String s1 : expression) {
-                    switch (s1) {
-                        case "+":
-                        case "-":
-                            if (stack.isEmpty()) {
-                                stack.push(s1);
-                                break;
-                            }
-                            while (!stack.isEmpty()) {
-                                expression2[i] = (String) stack.pop();
-                                i++;
-                            }
-                            stack.push(s1);
-                            break;
-
-                        case "*":
-                        case "/":
-                            if (stack.isEmpty()) {
-                                stack.push(s1);
-                                break;
-                            }
-                            String operator = (String) stack.peek();
-                            if (operator == "*" || operator == "/") {
-                                while (!stack.isEmpty()) {
-                                    expression2[i] = (String) stack.pop();
-                                    i++;
-                                }
-                            } else {
-                                stack.push(s1);
-                                break;
-                            }
-                        default:
-                            expression2[i] = s1;
-                            i++;
-                    }
-                }
-                while (!stack.isEmpty()) {
-                    expression2[i] = (String) stack.pop();
-                    i++;
-                }
-
-                int num1, num2;
-                int result;
-
-                Stack<Integer> stack2 = new Stack<Integer>();
-
-                for (i = 0; i < expression2.length; i++) {
-                    if (expression2[i].equals("+")) {
-                        num1 = stack2.pop();
-                        num2 = stack2.pop();
-                        result = num1 + num2;
-                        stack2.push(result);
-                    } else if (expression2[i].equals("-")) {
-                        num1 = stack2.pop();
-                        num2 = stack2.pop();
-                        result = num2 - num1;
-                        stack2.push(result);
-                    } else if (expression2[i].equals("*")) {
-                        num1 = stack2.pop();
-                        num2 = stack2.pop();
-                        result = num1 * num2;
-                        stack2.push(result);
-                    } else if (expression2[i].equals("/")) {
-                        num1 = stack2.pop();
-                        num2 = stack2.pop();
-                        result = num2 / num1;
-                        stack2.push(result);
-                    } else
-                        stack2.push(Integer.parseInt(expression2[i]));
-                }
-		        textView.setText((stack2.pop()));
-
-            }
-
-            else {
-                s += buttonStr+" ";
-                e.setText(s);*/
